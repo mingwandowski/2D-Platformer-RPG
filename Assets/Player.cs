@@ -10,25 +10,30 @@ public class Player : MonoBehaviour
     #endregion
 
     [Header("Move info")]
-    public float moveSpeed = 12;
+    public float moveSpeed = 8;
+    public float jumpForce = 12;
 
     #region States
     public PlayerStateMachine stateMachine { get; private set; }
 
-    public PlayerIdleState idleState { get; private set; }
-    public PlayerMoveState moveState { get; private set; }
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerAirState AirState { get; private set; }
     #endregion
 
     private void Awake() {
         stateMachine = new PlayerStateMachine();
-        idleState = new PlayerIdleState(this, stateMachine, "idle");
-        moveState = new PlayerMoveState(this, stateMachine, "move");
+        IdleState = new PlayerIdleState(this, stateMachine, "idle");
+        MoveState = new PlayerMoveState(this, stateMachine, "move");
+        JumpState = new PlayerJumpState(this, stateMachine, "jump");
+        AirState = new PlayerAirState(this, stateMachine, "jump");
     }
 
     private void Start() {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>(); 
-        stateMachine.Initialize(idleState);
+        stateMachine.Initialize(IdleState);
     }
 
     private void Update() {

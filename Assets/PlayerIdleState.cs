@@ -14,6 +14,9 @@ public class PlayerIdleState : PlayerState
 
     public override void Update() {
         base.Update();
+        if (Input.GetAxisRaw("Horizontal") != 0) {
+            player.stateMachine.ChangeState(player.moveState);
+        }
     }
 
     public override void Exit() {

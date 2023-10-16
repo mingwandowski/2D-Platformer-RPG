@@ -6,7 +6,11 @@ public class Player : MonoBehaviour
 {
     #region Components
     public Animator anim { get; private set; }
+    public Rigidbody2D rb { get; private set; } 
     #endregion
+
+    [Header("Move info")]
+    public float moveSpeed = 12;
 
     #region States
     public PlayerStateMachine stateMachine { get; private set; }
@@ -23,10 +27,15 @@ public class Player : MonoBehaviour
 
     private void Start() {
         anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>(); 
         stateMachine.Initialize(idleState);
     }
 
     private void Update() {
         stateMachine.currentState.Update();
+    }
+
+    public void SetVelocity(float xVelocity, float yVelocity) {
+        rb.velocity = new Vector2(xVelocity, yVelocity);
     }
 }

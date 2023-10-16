@@ -14,7 +14,10 @@ public class PlayerMoveState : PlayerState
 
     public override void Update() {
         base.Update();
-        if (Input.GetAxisRaw("Horizontal") == 0) {
+
+        player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
+
+        if (xInput == 0) {
             stateMachine.ChangeState(player.idleState);
         }
     }

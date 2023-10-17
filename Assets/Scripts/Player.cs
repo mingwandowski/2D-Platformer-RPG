@@ -16,11 +16,19 @@ public class Player : MonoBehaviour
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerAirState AirState { get; private set; }
+    public PlayerDashState DashState { get; private set; }
     #endregion
 
     [Header("Move info")]
     public float moveSpeed = 8;
     public float jumpForce = 12;
+    public int facingDir = 1;
+
+    [Header("Dash info")]
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
+    public float dashSpeed = 20;
+    public bool canDash = true;
 
     [Header("Collision info")]
     [SerializeField] private Transform groundCheck;
@@ -29,7 +37,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private LayerMask whatIsGround;
 
-    public int facingDir = 1;
 
     private void Awake() {
         stateMachine = new PlayerStateMachine();
@@ -37,6 +44,7 @@ public class Player : MonoBehaviour
         MoveState = new PlayerMoveState(this, stateMachine, "move");
         JumpState = new PlayerJumpState(this, stateMachine, "jump");
         AirState = new PlayerAirState(this, stateMachine, "jump");
+        DashState = new PlayerDashState(this, stateMachine, "dash");
     }
 
     private void Start() {
@@ -47,6 +55,13 @@ public class Player : MonoBehaviour
 
     private void Update() {
         stateMachine.currentState.Update();
+        CheckForDashInput();
+    }
+
+    private void CheckForDashInput() {
+        if (canDash && Input.GetKeyDown(KeyCode.L)) {
+            stateMachine.ChangeState(DashState);
+        }
     }
 
     public void SetVelocity(float xVelocity, float yVelocity) {

@@ -13,13 +13,13 @@ public class PlayerMoveState : PlayerGroundedState
     }
 
     public override void Update() {
-        base.Update();
-
         player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
 
         if (xInput == 0) {
             stateMachine.ChangeState(player.IdleState);
         }
+
+        base.Update();
     }
 
     public override void Exit() {

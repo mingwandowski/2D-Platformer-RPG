@@ -10,6 +10,7 @@ public class PlayerState
 
     protected Rigidbody2D rb;
     protected float xInput;
+    protected float yInput;
 
     public PlayerState(Player player, PlayerStateMachine stateMachine, string animBoolName) {
         this.player = player;
@@ -24,6 +25,7 @@ public class PlayerState
 
     public virtual void Update() {
         xInput = Input.GetAxisRaw("Horizontal");
+        yInput = Input.GetAxisRaw("Vertical");
         player.anim.SetFloat("yVelocity", rb.velocity.y);
     }
 

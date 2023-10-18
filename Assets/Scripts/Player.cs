@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     public PlayerJumpState JumpState { get; private set; }
     public PlayerAirState AirState { get; private set; }
     public PlayerDashState DashState { get; private set; }
+    public PlayerWallSlideState WallSlideState { get; private set; }
+    public PlayerWallJumpState WallJumpState { get; private set; }
     #endregion
 
     [Header("Move info")]
@@ -29,6 +31,9 @@ public class Player : MonoBehaviour
     public float dashCooldown = 1f;
     public float dashSpeed = 20;
     public bool canDash = true;
+
+    [Header("Wall slide info")]
+    public float wallSlideSpeed = 3;
 
     [Header("Collision info")]
     [SerializeField] private Transform groundCheck;
@@ -45,6 +50,8 @@ public class Player : MonoBehaviour
         JumpState = new PlayerJumpState(this, stateMachine, "jump");
         AirState = new PlayerAirState(this, stateMachine, "jump");
         DashState = new PlayerDashState(this, stateMachine, "dash");
+        WallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
+        WallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
     }
 
     private void Start() {
@@ -59,6 +66,7 @@ public class Player : MonoBehaviour
     }
 
     private void CheckForDashInput() {
+        if (IsWallDetected()) return;
         if (canDash && Input.GetKeyDown(KeyCode.L)) {
             stateMachine.ChangeState(DashState);
         }
@@ -70,6 +78,7 @@ public class Player : MonoBehaviour
     }
 
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, new Vector2(facingDir, 0), wallCheckDistance, whatIsGround);
 
     private void OnDrawGizmos() {
         Gizmos.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance);

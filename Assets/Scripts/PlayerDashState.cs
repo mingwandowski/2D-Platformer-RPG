@@ -11,6 +11,7 @@ public class PlayerDashState : PlayerState
     }
 
     private int dashDir;
+    Coroutine dashCoroutineInstance;
 
     public override void Enter() {
         base.Enter();
@@ -26,11 +27,16 @@ public class PlayerDashState : PlayerState
     public override void Update() {
         base.Update();
         rb.velocity = new(dashDir * player.dashSpeed, 0);
+
+        if (player.IsWallDetected()) {
+            player.StopCoroutine(dashCoroutineInstance);
+            stateMachine.ChangeState(player.WallSlideState);
+        }
     }
 
     private void Dash() {
         player.canDash = false;
-        player.StartCoroutine(DashDuration());
+        dashCoroutineInstance = player.StartCoroutine(DashDuration());
         player.StartCoroutine(DashCooldown());
     }
 

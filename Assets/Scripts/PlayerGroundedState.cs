@@ -22,5 +22,9 @@ public class PlayerGroundedState : PlayerState
         if (Input.GetButtonDown("Jump") && player.IsGroundDetected()) {
             stateMachine.ChangeState(player.JumpState);
         }
+
+        if (!player.IsGroundDetected()) {
+            stateMachine.ChangeState(player.AirState);
+        }
     }
 }

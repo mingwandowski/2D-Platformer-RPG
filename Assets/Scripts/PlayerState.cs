@@ -11,6 +11,7 @@ public class PlayerState
     protected Rigidbody2D rb;
     protected float xInput;
     protected float yInput;
+    protected bool triggerCalled;
 
     public PlayerState(Player player, PlayerStateMachine stateMachine, string animBoolName) {
         this.player = player;
@@ -21,6 +22,7 @@ public class PlayerState
     public virtual void Enter() {
         player.anim.SetBool(animBoolName, true);
         rb = player.rb;
+        triggerCalled = false;
     }
 
     public virtual void Update() {
@@ -31,5 +33,9 @@ public class PlayerState
 
     public virtual void Exit() {
         player.anim.SetBool(animBoolName, false);
+    }
+
+    public virtual void AnimationFinishTrigger() {
+        triggerCalled = true;
     }
 }

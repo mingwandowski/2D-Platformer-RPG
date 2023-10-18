@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public PlayerDashState DashState { get; private set; }
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
+
+    public PlayerPrimaryAttack PrimaryAttack { get; private set; }
     #endregion
 
     [Header("Move info")]
@@ -52,6 +54,8 @@ public class Player : MonoBehaviour
         DashState = new PlayerDashState(this, stateMachine, "dash");
         WallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
         WallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
+
+        PrimaryAttack = new PlayerPrimaryAttack(this, stateMachine, "attack");
     }
 
     private void Start() {
@@ -79,6 +83,8 @@ public class Player : MonoBehaviour
 
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, new Vector2(facingDir, 0), wallCheckDistance, whatIsGround);
+
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
     private void OnDrawGizmos() {
         Gizmos.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance);

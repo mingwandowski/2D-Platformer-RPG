@@ -23,6 +23,7 @@ public class PlayerState
         player.anim.SetBool(animBoolName, true);
         rb = player.rb;
         triggerCalled = false;
+        xInput = Input.GetAxisRaw("Horizontal");
     }
 
     public virtual void Update() {

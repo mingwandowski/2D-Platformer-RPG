@@ -15,7 +15,7 @@ public class PlayerDashState : PlayerState
 
     public override void Enter() {
         base.Enter();
-        dashDir = player.facingDir;
+        dashDir = xInput == 0 ? player.facingDir : (int)xInput;
         Dash();
     }
 

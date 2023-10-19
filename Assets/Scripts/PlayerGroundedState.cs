@@ -20,7 +20,7 @@ public class PlayerGroundedState : PlayerState
         base.Update();
 
         if (Input.GetKeyDown(KeyCode.J)) {
-            stateMachine.ChangeState(player.PrimaryAttack);
+            stateMachine.ChangeState(player.PrimaryAttackState);
         }
 
         if (Input.GetButtonDown("Jump") && player.IsGroundDetected()) {

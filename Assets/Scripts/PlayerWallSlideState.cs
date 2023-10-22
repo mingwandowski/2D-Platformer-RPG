@@ -33,6 +33,10 @@ public class PlayerWallSlideState : PlayerState
             stateMachine.ChangeState(player.IdleState);
         }
 
+        if (!player.IsWallDetected()) {
+            stateMachine.ChangeState(player.AirState);
+        }
+
         if (Input.GetButtonDown("Jump")) {
             stateMachine.ChangeState(player.WallJumpState);
         }

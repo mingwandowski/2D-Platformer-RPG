@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class EnemyState
 {
-    protected Enemy enemy;
+    protected Enemy enemyBase;
     protected EnemyStateMachine stateMachine;
     protected bool triggerCalled;
     private string animBoolName;
 
-    public EnemyState(Enemy enemy, EnemyStateMachine stateMachine, string animBoolName) {
-        this.enemy = enemy;
+    public EnemyState(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName) {
+        this.enemyBase = enemyBase;
         this.stateMachine = stateMachine;
         this.animBoolName = animBoolName;
     }
 
     public virtual void Enter() {
         triggerCalled = false;
-        enemy.anim.SetBool(animBoolName, true);
+        Debug.Log(enemyBase);
+        Debug.Log(enemyBase.anim);
+        enemyBase.anim.SetBool(animBoolName, true);
     }
 
     public virtual void Exit() {
-        enemy.anim.SetBool(animBoolName, false);
+        enemyBase.anim.SetBool(animBoolName, false);
     }
 
     public virtual void Update() {

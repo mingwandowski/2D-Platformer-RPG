@@ -12,10 +12,12 @@ public class SkeletonAttackState : EnemyState
 
     public override void Enter() {
         base.Enter();
+        enemy.canAttack = false;
     }
 
     public override void Exit() {
         base.Exit();
+        enemy.StartCoroutine(CooldownCoroutine());
     }
 
     public override void Update()
@@ -26,5 +28,10 @@ public class SkeletonAttackState : EnemyState
         if (triggerCalled) {
             stateMachine.ChangeState(enemy.BattleState);
         }
+    }
+
+    private IEnumerator CooldownCoroutine() {
+        yield return new WaitForSeconds(enemy.attackCooldown);
+        enemy.canAttack = true;
     }
 }

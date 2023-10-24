@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkeletonIdleState : SkeletonGroundedState
 {
+
+    private Coroutine idleCoroutine;
     public SkeletonIdleState(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName, Enemy_Skeleton enemy) : base(enemyBase, stateMachine, animBoolName, enemy)
     {
     }
@@ -11,11 +13,12 @@ public class SkeletonIdleState : SkeletonGroundedState
     public override void Enter() {
         base.Enter();
         enemy.rb.velocity = Vector2.zero;
-        enemy.StartCoroutine(IdleCoroutine());
+        idleCoroutine = enemy.StartCoroutine(IdleCoroutine());
     }
 
     public override void Exit() {
         base.Exit();
+        enemy.StopCoroutine(idleCoroutine);
     }
 
     public override void Update()

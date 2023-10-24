@@ -7,6 +7,7 @@ public class Enemy : Entity
     [Header("Move info")]
     public float moveSpeed = 2f;
     public float idleTime = 2f;
+    public float battleTime = 5f;
 
     [Header("Detection info")]
     [SerializeField] protected LayerMask whatIsPlayer;
@@ -14,7 +15,8 @@ public class Enemy : Entity
 
     [Header("Attack info")]
     public float attackDistance = 1f;
-    public float attackCooldown = 1f;
+    public float attackCooldown = 0f;
+    [HideInInspector] public bool canAttack = true;
 
     public EnemyStateMachine stateMachine;
 

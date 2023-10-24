@@ -1303,12 +1303,14 @@ MonoBehaviour:
   facingDir: 1
   moveSpeed: 1
   idleTime: 2
+  battleTime: 5
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
   playerDetectionRange: 10
   attackDistance: 1.67
   attackCooldown: 1
+  canAttack: 1
 --- !u!50 &1138616799
 Rigidbody2D:
   serializedVersion: 4

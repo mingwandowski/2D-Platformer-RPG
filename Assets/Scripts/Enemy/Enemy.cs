@@ -8,6 +8,14 @@ public class Enemy : Entity
     public float moveSpeed = 2f;
     public float idleTime = 2f;
 
+    [Header("Detection info")]
+    [SerializeField] protected LayerMask whatIsPlayer;
+    public float playerDetectionRange = 10;
+
+    [Header("Attack info")]
+    public float attackDistance = 1f;
+    public float attackCooldown = 1f;
+
     public EnemyStateMachine stateMachine;
 
     protected override void Awake() {
@@ -18,5 +26,15 @@ public class Enemy : Entity
     protected override void Update() {
         base.Update();
         stateMachine.currentState.Update();
+    }
+
+    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(transform.position, new Vector2(facingDir, 0), playerDetectionRange, whatIsPlayer);
+
+    protected override void OnDrawGizmos() {
+        base.OnDrawGizmos();
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, transform.position + new Vector3(facingDir * playerDetectionRange, 0, 0));
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(facingDir * attackDistance, 0.1f, 0));
     }
 }

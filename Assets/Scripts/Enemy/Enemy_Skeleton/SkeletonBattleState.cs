@@ -26,9 +26,8 @@ public class SkeletonBattleState : EnemyState
         base.Update();
 
         if (enemy.IsPlayerDetected() && enemy.IsPlayerDetected().distance < enemy.attackDistance) {
-            rb.velocity = Vector2.zero;
             // Attack
-            Debug.Log("I Attack");
+            stateMachine.ChangeState(enemy.AttackState);
         } else {
             moveDir = player.position.x < enemy.transform.position.x ? -1 : 1;
             enemy.SetVelocity(moveDir * enemy.moveSpeed, rb.velocity.y);

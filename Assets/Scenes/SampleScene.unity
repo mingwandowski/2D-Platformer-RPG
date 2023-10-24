@@ -440,7 +440,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.214953, y: 3.2079985, z: -10}
+  m_LocalPosition: {x: -15.215153, y: 3.2079985, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -818,6 +818,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caddc4c16d9f64678bba91a367b3cedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  facingDir: 1
+  knockbackDir: {x: 5, y: 3}
+  isKnocked: 0
   groundCheck: {fileID: 1253037895}
   groundCheckDistance: 0.1
   wallCheck: {fileID: 15899832}
@@ -827,7 +830,6 @@ MonoBehaviour:
     m_Bits: 8
   attackCheck: {fileID: 415302017}
   attackCheckRadius: 1.14
-  facingDir: 1
   moveSpeed: 8
   jumpForce: 16
   attackMovement:
@@ -1316,7 +1318,7 @@ Transform:
   m_GameObject: {fileID: 976427426}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.214953, y: 3.2079985, z: -10}
+  m_LocalPosition: {x: -15.215153, y: 3.2079985, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1374,6 +1376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c24b8b232d9d4dbe94e4534bbf426f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  facingDir: 1
+  knockbackDir: {x: 5, y: 5}
+  isKnocked: 0
   groundCheck: {fileID: 1824797578}
   groundCheckDistance: 0.15
   wallCheck: {fileID: 2129024981}
@@ -1383,7 +1388,6 @@ MonoBehaviour:
     m_Bits: 8
   attackCheck: {fileID: 650624991}
   attackCheckRadius: 1.74
-  facingDir: 1
   moveSpeed: 1
   idleTime: 2
   battleTime: 5
@@ -1409,7 +1413,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

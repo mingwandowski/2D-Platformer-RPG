@@ -23,7 +23,7 @@ public class SkeletonAttackState : EnemyState
     public override void Update()
     {
         base.Update();
-        rb.velocity = Vector2.zero;
+        enemy.SetVelocity(0, rb.velocity.y);
 
         if (triggerCalled) {
             stateMachine.ChangeState(enemy.BattleState);

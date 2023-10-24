@@ -10,6 +10,11 @@ public class Entity : MonoBehaviour
     public EntityFX fx { get; private set; }
     #endregion
 
+    [Header("Basic info")]
+    public int facingDir = 1;
+    [SerializeField] protected Vector2 knockbackDir;
+    [HideInInspector] public bool isKnocked;
+
     [Header("Collision info")]
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance = 0.5f;
@@ -18,8 +23,6 @@ public class Entity : MonoBehaviour
     [SerializeField] protected LayerMask whatIsGround;
     public Transform attackCheck;
     public float attackCheckRadius = 1f;
-
-    public int facingDir = 1;
 
     protected virtual void Awake() {
 
@@ -35,12 +38,22 @@ public class Entity : MonoBehaviour
 
     }
 
-    public void Damage() {
+    public void Damage(int hitDirection) {
         StartCoroutine(fx.FlashFX());
+        StartCoroutine(HitKnockback(hitDirection));
+    }
+
+    protected virtual IEnumerator HitKnockback(int hitDirection) {
+        isKnocked = true;
+        rb.velocity = new Vector2(hitDirection * knockbackDir.x, knockbackDir.y);
+        yield return new WaitForSeconds(0.1f);
+        rb.velocity = Vector2.zero;
+        isKnocked = false;
     }
 
     #region Velocity
     public void SetVelocity(float xVelocity, float yVelocity) {
+        if (isKnocked) return;
         rb.velocity = new Vector2(xVelocity, yVelocity);
         FlipController(xVelocity);
     }

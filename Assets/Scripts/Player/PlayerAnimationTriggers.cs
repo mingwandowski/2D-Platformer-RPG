@@ -14,7 +14,8 @@ public class PlayerAnimationTriggers : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
         foreach (Collider2D hit in hits) {
             if (hit.GetComponent<Enemy>() != null) {
-                hit.GetComponent<Enemy>().Damage();
+                int hitDirection = player.transform.position.x > hit.transform.position.x ? -1 : 1;
+                hit.GetComponent<Enemy>().Damage(hitDirection);
             }
         }
     }

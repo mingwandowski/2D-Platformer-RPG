@@ -920,6 +920,7 @@ MonoBehaviour:
   - {x: 1, y: 2}
   - {x: 0, y: 3}
   - {x: 4, y: 2}
+  counterAttackDuration: 0.2
   dashDuration: 0.2
   dashCooldown: 1
   dashSpeed: 25
@@ -1483,7 +1484,7 @@ MonoBehaviour:
   attackDistance: 2
   attackCooldown: 0
   canAttack: 1
-  stunDuration: 1
+  stunDuration: 0.5
   stunDirection: {x: 5, y: 5}
   counterImage: {fileID: 275363378}
 --- !u!50 &1138616799

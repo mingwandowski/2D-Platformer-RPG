@@ -46,6 +46,14 @@ public class Enemy : Entity
         counterImage.SetActive(false);
     }
 
+    public virtual bool CanBeStunned() {
+        if (canBeStunned) {
+            CloseCounterAttackWindow();
+            return true;
+        }
+        return false;
+    }
+
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
     public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(transform.position, new Vector2(facingDir, 0), playerDetectionRange, whatIsPlayer);

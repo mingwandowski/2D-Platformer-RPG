@@ -16,6 +16,7 @@ public class Player : Entity
     public PlayerWallJumpState WallJumpState { get; private set; }
 
     public PlayerPrimaryAttackState PrimaryAttackState { get; private set; }
+    public PlayerCounterAttackState CounterAttackState { get; private set; }
     #endregion
 
     #region Status
@@ -25,7 +26,10 @@ public class Player : Entity
     [Header("Move info")]
     public float moveSpeed = 8;
     public float jumpForce = 12;
+
+    [Header("Attack info")]
     public Vector2[] attackMovement;
+    public float counterAttackDuration = .2f;
 
     [Header("Dash info")]
     public float dashDuration = 0.2f;
@@ -48,6 +52,7 @@ public class Player : Entity
         WallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
 
         PrimaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, "attack");
+        CounterAttackState = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
     }
 
     protected override void Start() {

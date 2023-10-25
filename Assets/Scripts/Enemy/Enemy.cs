@@ -18,6 +18,10 @@ public class Enemy : Entity
     public float attackCooldown = 0f;
     [HideInInspector] public bool canAttack = true;
 
+    [Header("Stunned info")]
+    public float stunDuration;
+    public Vector2 stunDirection;
+
     public EnemyStateMachine stateMachine;
 
     protected override void Awake() {

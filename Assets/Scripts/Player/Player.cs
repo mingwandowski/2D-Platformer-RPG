@@ -33,9 +33,7 @@ public class Player : Entity
 
     [Header("Dash info")]
     public float dashDuration = 0.2f;
-    public float dashCooldown = 1f;
     public float dashSpeed = 20;
-    public bool canDash = true;
 
     [Header("Wall slide info")]
     public float wallSlideSpeed = 3;
@@ -68,7 +66,7 @@ public class Player : Entity
 
     private void CheckForDashInput() {
         if (IsWallDetected()) return;
-        if (canDash && Input.GetKeyDown(KeyCode.L)) {
+        if (Input.GetKeyDown(KeyCode.L) && SkillManager.instance.dash.CanUseSkill()) {
             stateMachine.ChangeState(DashState);
         }
     }

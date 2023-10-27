@@ -35,18 +35,11 @@ public class PlayerDashState : PlayerState
     }
 
     private void Dash() {
-        player.canDash = false;
         dashCoroutineInstance = player.StartCoroutine(DashDuration());
-        player.StartCoroutine(DashCooldown());
     }
 
     private IEnumerator DashDuration() {
         yield return new WaitForSeconds(player.dashDuration);
         stateMachine.ChangeState(player.IdleState);
-    }
-
-    private IEnumerator DashCooldown() {
-        yield return new WaitForSeconds(player.dashCooldown);
-        player.canDash = true;
     }
 }

@@ -19,6 +19,10 @@ public class Player : Entity
     public PlayerCounterAttackState CounterAttackState { get; private set; }
     #endregion
 
+    #region Components
+    public SkillManager skill;
+    #endregion
+
     #region Status
     public bool IsBusy { get; private set; }
     #endregion
@@ -55,6 +59,7 @@ public class Player : Entity
 
     protected override void Start() {
         base.Start();
+        skill = SkillManager.instance;
         stateMachine.Initialize(IdleState);
     }
 
@@ -66,7 +71,7 @@ public class Player : Entity
 
     private void CheckForDashInput() {
         if (IsWallDetected()) return;
-        if (Input.GetKeyDown(KeyCode.L) && SkillManager.instance.dash.CanUseSkill()) {
+        if (Input.GetKeyDown(KeyCode.L) && skill.dash.CanUseSkill()) {
             stateMachine.ChangeState(DashState);
         }
     }

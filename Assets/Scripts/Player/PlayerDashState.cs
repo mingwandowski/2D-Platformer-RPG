@@ -17,6 +17,8 @@ public class PlayerDashState : PlayerState
         base.Enter();
         dashDir = xInput == 0 ? player.facingDir : (int)xInput;
         Dash();
+
+        player.skill.clone.CreateClone(player.transform);
     }
 
     public override void Exit() {

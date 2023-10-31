@@ -17,6 +17,9 @@ public class Player : Entity
 
     public PlayerPrimaryAttackState PrimaryAttackState { get; private set; }
     public PlayerCounterAttackState CounterAttackState { get; private set; }
+
+    public PlayerAimSwordState AimSwordState { get; private set; }
+    public PlayerCatchSwordState CatchSwordState { get; private set; }
     #endregion
 
     #region Components
@@ -55,6 +58,9 @@ public class Player : Entity
 
         PrimaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, "attack");
         CounterAttackState = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
+
+        AimSwordState = new PlayerAimSwordState(this, stateMachine, "aimSword");
+        CatchSwordState = new PlayerCatchSwordState(this, stateMachine, "catchSword");
     }
 
     protected override void Start() {

@@ -23,6 +23,10 @@ public class PlayerGroundedState : PlayerState
             stateMachine.ChangeState(player.CounterAttackState);
         }
 
+        if (Input.GetKeyDown(KeyCode.E)) {
+            stateMachine.ChangeState(player.AimSwordState);
+        }
+
         if (Input.GetKeyDown(KeyCode.J)) {
             stateMachine.ChangeState(player.PrimaryAttackState);
         }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerAimSwordState : PlayerState
 {
+    public float throwForce;
+
     public PlayerAimSwordState(Player player, PlayerStateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
     }
@@ -23,9 +25,13 @@ public class PlayerAimSwordState : PlayerState
         base.Update();
         
         if (Input.GetKey(KeyCode.E)) {
-            Debug.Log(123);
+            throwForce += Time.deltaTime * 10;
         } else if (Input.GetKeyUp(KeyCode.E)) {
             stateMachine.ChangeState(player.IdleState);
         }
+    }
+
+    public void ResetThrowForce() {
+        throwForce = 0;
     }
 }

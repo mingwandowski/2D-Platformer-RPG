@@ -16,6 +16,7 @@ public class SwordSkillController : MonoBehaviour
     }
 
     public void SetupSword(Vector2 dir, float swordGravity) {
+        Debug.Log(dir);
         rb.velocity = dir;
         rb.gravityScale = swordGravity;
     }

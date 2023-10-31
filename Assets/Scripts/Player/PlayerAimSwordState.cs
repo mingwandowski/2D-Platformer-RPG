@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerAimSwordState : PlayerState
 {
-    public float throwForce;
+    public float throwHeight = 0;
 
     public PlayerAimSwordState(Player player, PlayerStateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
@@ -14,10 +14,12 @@ public class PlayerAimSwordState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.skill.sword.SetDotsActive(true);
     }
 
     public override void Exit() {
         base.Exit();
+        player.skill.sword.SetDotsActive(false);
     }
 
     public override void Update()
@@ -25,13 +27,13 @@ public class PlayerAimSwordState : PlayerState
         base.Update();
         
         if (Input.GetKey(KeyCode.E)) {
-            throwForce += Time.deltaTime * 10;
+            throwHeight += Time.deltaTime * 10;
         } else if (Input.GetKeyUp(KeyCode.E)) {
             stateMachine.ChangeState(player.IdleState);
         }
     }
 
     public void ResetThrowForce() {
-        throwForce = 0;
+        throwHeight = 0;
     }
 }

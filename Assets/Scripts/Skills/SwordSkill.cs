@@ -11,7 +11,6 @@ public class SwordSkill : Skill
     [SerializeField] private float throwForce = 15;
     private float throwHeight;
     private Vector2 finalDir;
-    private Vector2 swordLaunchPosition;
 
     [Header("Aim dots")]
     [SerializeField] private int numOfDots;
@@ -39,9 +38,9 @@ public class SwordSkill : Skill
 
     public void CreateSword() {
         finalDir = GetThrowVector();
-        swordLaunchPosition = (Vector2)player.transform.position + player.facingDir * new Vector2(1.5f, 0);
-        GameObject sword = Instantiate(swordPrefab, swordLaunchPosition, player.transform.rotation);
-        sword.GetComponent<SwordSkillController>().SetupSword(finalDir, swordGravity);
+        GameObject sword = Instantiate(swordPrefab, player.transform.position, player.transform.rotation);
+        sword.GetComponent<SwordSkillController>().SetupSword(finalDir, swordGravity, player);
+        player.AssignNewSword(sword);
     }
 
     public Vector2 AimDirection() {
@@ -51,7 +50,7 @@ public class SwordSkill : Skill
     }
 
     public Vector2 GetThrowVector() {
-        return AimDirection()  * (throwForce + throwHeight);
+        return AimDirection()  * throwForce;
     }
 
     public void SetDotsActive(bool active) {
@@ -63,12 +62,12 @@ public class SwordSkill : Skill
     private void GenerateDots() {
         dots = new GameObject[numOfDots];
         for (int i = 0; i < numOfDots; i++) {
-            dots[i] = Instantiate(aimDotPrefab, swordLaunchPosition, Quaternion.identity, dotsParent);
+            dots[i] = Instantiate(aimDotPrefab, player.transform.position, Quaternion.identity, dotsParent);
             dots[i].SetActive(false);
         }
     }
 
     private Vector2 GetDotPosition(float t) {
-        return  swordLaunchPosition + GetThrowVector() * t + .5f * (t * t) * (Physics2D.gravity * swordGravity);
+        return  (Vector2)player.transform.position + GetThrowVector() * t + .5f * (t * t) * (Physics2D.gravity * swordGravity);
     }
 }

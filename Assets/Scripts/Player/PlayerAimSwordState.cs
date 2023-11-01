@@ -27,13 +27,15 @@ public class PlayerAimSwordState : PlayerState
         base.Update();
         
         if (Input.GetKey(KeyCode.E)) {
+            rb.velocity = Vector2.zero;
             throwHeight += Time.deltaTime * 10;
         } else if (Input.GetKeyUp(KeyCode.E)) {
-            stateMachine.ChangeState(player.IdleState);
+            player.anim.SetBool("aimSword", false);
         }
     }
 
-    public void ResetThrowForce() {
+    public void ThrowSwordFinish() {
         throwHeight = 0;
+        stateMachine.ChangeState(player.IdleState);
     }
 }

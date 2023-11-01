@@ -24,7 +24,11 @@ public class PlayerGroundedState : PlayerState
         }
 
         if (Input.GetKeyDown(KeyCode.E)) {
-            stateMachine.ChangeState(player.AimSwordState);
+            if (!player.sword) {
+                stateMachine.ChangeState(player.AimSwordState);
+            } else {
+                player.sword.GetComponent<SwordSkillController>().ReturnSword();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.J)) {

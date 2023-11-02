@@ -14,7 +14,7 @@ public class PlayerCatchSwordState : PlayerState
         if (sword.position.x < player.transform.position.x && player.facingDir > 0 || sword.position.x > player.transform.position.x && player.facingDir < 0) {
             player.Flip();
         }
-        rb.velocity = new Vector2(2 * -player.facingDir, rb.velocity.y);
+        rb.velocity = new Vector2(0 * -player.facingDir, rb.velocity.y);
     }
 
     public override void Exit()

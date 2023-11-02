@@ -27,7 +27,7 @@ public class SwordSkillController : MonoBehaviour
         if (isReturn) {
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position, returnSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, player.transform.position) < 1) {
-                player.DestroySword();
+                player.CatchSword();
             }
         }
     }

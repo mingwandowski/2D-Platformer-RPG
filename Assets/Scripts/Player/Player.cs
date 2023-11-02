@@ -80,7 +80,8 @@ public class Player : Entity
         this.sword = sword;
     }
 
-    public void DestroySword() {
+    public void CatchSword() {
+        stateMachine.ChangeState(CatchSwordState);
         Destroy(sword);
     }
 

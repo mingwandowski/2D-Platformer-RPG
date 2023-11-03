@@ -29,6 +29,12 @@ public class SwordSkillController : MonoBehaviour
     }
 
     private void Update() {
+        // Destroy if too far away
+        if (Vector2.Distance(transform.position, player.transform.position) > 30f) {
+            Destroy(gameObject);
+            return;
+        }
+
         if (canRotate) {
             transform.right = rb.velocity;
         }

@@ -8,7 +8,6 @@ public enum SwordType {
     Bouncy,
     Pierce,
     Spin
-    // todo: setup timeout for sword
 }
 
 public class SwordSkill : Skill

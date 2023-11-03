@@ -280,6 +280,8 @@ MonoBehaviour:
   spaceBetweenDots: 0.07
   aimDotPrefab: {fileID: 6519815911602077875, guid: 4ca858117d4ed41c3aa4e8ddd44b6650, type: 3}
   dotsParent: {fileID: 734003883}
+  numOfBounce: 0
+  swordType: 1
 --- !u!1 &213812694
 GameObject:
   m_ObjectHideFlags: 0

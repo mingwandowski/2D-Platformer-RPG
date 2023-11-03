@@ -13,8 +13,8 @@ public class SwordSkillController : MonoBehaviour
     private bool canRotate = true;
     private bool swordReturning = false;
     private bool swordBouncing = false;
-    [SerializeField] private int bouncyCnt = 4;
-    public List<Transform> enemyTarget = new();
+    private int numOfBunce = 0;
+    private List<Transform> enemyTarget = new();
     private int targetIdx = 0;
 
     private void Awake() {
@@ -36,39 +36,40 @@ public class SwordSkillController : MonoBehaviour
             return;
         }
 
-        if (swordBouncing && bouncyCnt > 0) {
+        if (swordBouncing && numOfBunce > 0) {
             transform.position = Vector2.MoveTowards(transform.position, enemyTarget[targetIdx].position, returnSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, enemyTarget[targetIdx].position) < cd.radius ) {
                 targetIdx = (targetIdx + 1) % enemyTarget.Count;
-                bouncyCnt--;
+                numOfBunce--;
             }
-            if (bouncyCnt == 0) {
+            if (numOfBunce == 0) {
                 ReturnSword();
             }
         }
     }
 
-    public void SetupSword(Vector2 dir, float swordGravity, Player player) {
+    public void SetupSword(Vector2 dir, float swordGravity, Player player, int numOfBounce) {
         rb.velocity = dir;
         rb.gravityScale = swordGravity;
         this.player = player;
+        this.numOfBunce = numOfBounce;
         anim.SetBool("rotation", true);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (swordReturning || swordBouncing) return;
 
-        if (bouncyCnt == 0 && other.CompareTag("Enemy")) {
+        if (numOfBunce == 0 && other.CompareTag("Enemy")) {
             ReturnSword();
-        } else if (bouncyCnt >= 0 && other.CompareTag("Enemy")) {
-            SetBouncyEnemyTarget(other);
+        } else if (numOfBunce >= 0 && other.CompareTag("Enemy")) {
+            SetBounceEnemyTarget(other);
         } else {
             StuckInto(other);
         }
     }
 
-    private void SetBouncyEnemyTarget(Collider2D other) {
-        if (bouncyCnt > 0 && enemyTarget.Count == 0) {
+    private void SetBounceEnemyTarget(Collider2D other) {
+        if (numOfBunce > 0 && enemyTarget.Count == 0) {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10);
             foreach (Collider2D collider in colliders) {
                 if (collider.CompareTag("Enemy")) {
@@ -83,7 +84,7 @@ public class SwordSkillController : MonoBehaviour
                     enemyTarget.RemoveAt(0);
                     enemyTarget.Add(other.transform);
                 }
-                BouncySword();
+                BounceSword();
             }
         }
     }
@@ -106,7 +107,7 @@ public class SwordSkillController : MonoBehaviour
         anim.SetBool("rotation", true);
     }
 
-    public void BouncySword() {
+    public void BounceSword() {
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         swordBouncing = true;
     }

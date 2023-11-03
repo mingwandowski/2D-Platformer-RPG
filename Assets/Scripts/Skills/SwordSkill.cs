@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum SwordType {
+    Regular,
+    Bounce,
+    Pierce,
+    Spin
+}
+
 public class SwordSkill : Skill
 {
     [Header("Skill info")]
@@ -17,6 +24,11 @@ public class SwordSkill : Skill
     [SerializeField] private float spaceBetweenDots;
     [SerializeField] private GameObject aimDotPrefab;
     [SerializeField] private Transform dotsParent;
+
+    [Header("Bounce info")]
+    [SerializeField] private int numOfBounce;
+
+    public SwordType swordType = SwordType.Regular;
 
     private GameObject[] dots;
 
@@ -39,7 +51,12 @@ public class SwordSkill : Skill
     public void CreateSword() {
         finalDir = GetThrowVector();
         GameObject sword = Instantiate(swordPrefab, player.transform.position, player.transform.rotation);
-        sword.GetComponent<SwordSkillController>().SetupSword(finalDir, swordGravity, player);
+
+        if (swordType == SwordType.Regular) {
+            sword.GetComponent<SwordSkillController>().SetupSword(finalDir, swordGravity, player, -1);
+        } else if(swordType == SwordType.Bounce) {
+            sword.GetComponent<SwordSkillController>().SetupSword(finalDir, swordGravity, player, numOfBounce);
+        }
         player.AssignNewSword(sword);
     }
 

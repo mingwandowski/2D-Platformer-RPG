@@ -5,14 +5,16 @@ using UnityEngine;
 
 public enum SwordType {
     Regular,
-    Bounce,
+    Bouncy,
     Pierce,
     Spin
+    // todo: refactor, add pierce function, make damage, setup timeout for sword
 }
 
 public class SwordSkill : Skill
 {
     [Header("Skill info")]
+    public SwordType swordType = SwordType.Regular;
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private float swordGravity = 4;
     [SerializeField] private float throwForce = 15;
@@ -26,20 +28,34 @@ public class SwordSkill : Skill
     [SerializeField] private Transform dotsParent;
 
     [Header("Bounce info")]
-    [SerializeField] private int numOfBounce;
+    [SerializeField] private int bounceAmount;
+    [SerializeField] private float bounceGravity;
 
-    public SwordType swordType = SwordType.Regular;
+    [Header("Pierce info")]
+    [SerializeField] private int pierceAmount;
+    [SerializeField] private float pierceGravity;
 
     private GameObject[] dots;
 
     protected override void Start()
     {
         base.Start();
-        GenerateDots();
     }
 
     protected override void Update() {
         base.Update();
+
+        if (Input.GetKeyDown(KeyCode.E)) {
+            switch (swordType) {
+                case SwordType.Bouncy: 
+                    swordGravity = bounceGravity; break;
+                case SwordType.Pierce:
+                    swordGravity = pierceGravity; break;
+                default: break;
+            };
+            GenerateDots();
+        }
+
         if (Input.GetKey(KeyCode.E)) {
             throwHeight = player.AimSwordState.throwHeight;
             for (int i = 0; i < dots.Length; i++) {
@@ -52,16 +68,22 @@ public class SwordSkill : Skill
         finalDir = GetThrowVector();
         GameObject sword = Instantiate(swordPrefab, player.transform.position, player.transform.rotation);
 
-        if (swordType == SwordType.Regular) {
-            sword.GetComponent<SwordSkillController>().SetupSword(finalDir, swordGravity, player, -1);
-        } else if(swordType == SwordType.Bounce) {
-            sword.GetComponent<SwordSkillController>().SetupSword(finalDir, swordGravity, player, numOfBounce);
+        switch (swordType)
+        {
+            case SwordType.Regular:
+                sword.GetComponent<SwordSkillController>().SetupRegularSword(finalDir, swordGravity, player); break;
+            case SwordType.Bouncy:
+                sword.GetComponent<SwordSkillController>().SetupBouncySword(finalDir, swordGravity, player, bounceAmount); break;
+            case SwordType.Pierce:
+                sword.GetComponent<SwordSkillController>().SetupPierceSword(finalDir, pierceGravity, player, pierceAmount); break;
+            default:
+                sword.GetComponent<SwordSkillController>().SetupRegularSword(finalDir, swordGravity, player); break;
         }
         player.AssignNewSword(sword);
     }
 
     public Vector2 AimDirection() {
-        Vector2 launchDir = new(player.facingDir * 10, 1f);
+        Vector2 launchDir = new(player.facingDir * 20, 0f);
         launchDir.y += throwHeight * 2;
         return launchDir.normalized;
     }

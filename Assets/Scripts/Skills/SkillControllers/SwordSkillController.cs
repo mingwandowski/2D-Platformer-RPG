@@ -9,13 +9,16 @@ public class SwordSkillController : MonoBehaviour
     private CircleCollider2D cd;
     private Player player;
 
+    private SwordType swordType;
+
     [SerializeField] private float returnSpeed = 15f;
     private bool canRotate = true;
     private bool swordReturning = false;
     private bool swordBouncing = false;
-    private int numOfBunce = 0;
+    private int bounceAmount = -1;
     private List<Transform> enemyTarget = new();
     private int targetIdx = 0;
+    private int pierceAmount = 0;
 
     private void Awake() {
         anim = GetComponentInChildren<Animator>();
@@ -36,32 +39,49 @@ public class SwordSkillController : MonoBehaviour
             return;
         }
 
-        if (swordBouncing && numOfBunce > 0) {
+        if (swordType == SwordType.Bouncy && swordBouncing && bounceAmount > 0) {
             transform.position = Vector2.MoveTowards(transform.position, enemyTarget[targetIdx].position, returnSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, enemyTarget[targetIdx].position) < cd.radius ) {
                 targetIdx = (targetIdx + 1) % enemyTarget.Count;
-                numOfBunce--;
+                bounceAmount--;
             }
-            if (numOfBunce == 0) {
+            if (bounceAmount == 0) {
                 ReturnSword();
             }
         }
     }
 
-    public void SetupSword(Vector2 dir, float swordGravity, Player player, int numOfBounce) {
+    private void SetupBaseSword(Vector2 dir, float swordGravity, Player player) {
         rb.velocity = dir;
         rb.gravityScale = swordGravity;
         this.player = player;
-        this.numOfBunce = numOfBounce;
         anim.SetBool("rotation", true);
+    }
+
+    public void SetupRegularSword(Vector2 dir, float swordGravity, Player player) {
+        swordType = SwordType.Regular;
+        SetupBaseSword(dir, swordGravity, player);
+        
+    }
+
+    public void SetupBouncySword(Vector2 dir, float swordGravity, Player player, int bounceAmount) {
+        swordType = SwordType.Bouncy;
+        SetupBaseSword(dir, swordGravity, player);
+        this.bounceAmount = bounceAmount;
+    }
+
+    public void SetupPierceSword(Vector2 dir, float swordGravity, Player player, int pierceAmount) {
+        swordType = SwordType.Pierce;
+        SetupBaseSword(dir, swordGravity, player);
+        this.pierceAmount = pierceAmount;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (swordReturning || swordBouncing) return;
 
-        if (numOfBunce == 0 && other.CompareTag("Enemy")) {
+        if (bounceAmount == 0 && other.CompareTag("Enemy")) {
             ReturnSword();
-        } else if (numOfBunce >= 0 && other.CompareTag("Enemy")) {
+        } else if (bounceAmount >= 0 && other.CompareTag("Enemy")) {
             SetBounceEnemyTarget(other);
         } else {
             StuckInto(other);
@@ -69,7 +89,7 @@ public class SwordSkillController : MonoBehaviour
     }
 
     private void SetBounceEnemyTarget(Collider2D other) {
-        if (numOfBunce > 0 && enemyTarget.Count == 0) {
+        if (bounceAmount > 0 && enemyTarget.Count == 0) {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10);
             foreach (Collider2D collider in colliders) {
                 if (collider.CompareTag("Enemy")) {
@@ -90,6 +110,12 @@ public class SwordSkillController : MonoBehaviour
     }
 
     private void StuckInto(Collider2D collider) {
+        // Pierce sword pass the enemy
+        if (swordType == SwordType.Pierce && pierceAmount > 0 && collider.CompareTag("Enemy")) {
+            pierceAmount--;
+            return;
+        }
+
         canRotate = false;
         cd.enabled = false;
         rb.isKinematic = true;

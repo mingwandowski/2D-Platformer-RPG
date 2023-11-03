@@ -15,9 +15,9 @@ public class EntityFX : MonoBehaviour
         originalMat = sr.material;
     }
 
-    public IEnumerator FlashFX() {
+    public IEnumerator FlashFX(float flashDuration) {
         sr.material = hitMat;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(flashDuration);
         sr.material = originalMat;
     }
 

@@ -14,6 +14,7 @@ public class Entity : MonoBehaviour
     public int facingDir = 1;
     [SerializeField] protected Vector2 knockbackDir;
     [HideInInspector] public bool isKnocked;
+    private bool invincible = false;
 
     [Header("Collision info")]
     [SerializeField] protected Transform groundCheck;
@@ -39,8 +40,10 @@ public class Entity : MonoBehaviour
     }
 
     public void Damage(int hitDirection) {
-        StartCoroutine(fx.FlashFX());
+        if (invincible) return;
+        StartCoroutine(fx.FlashFX(0.3f));
         StartCoroutine(HitKnockback(hitDirection));
+        StartCoroutine(Invincible(0.3f));
     }
 
     protected virtual IEnumerator HitKnockback(int hitDirection) {
@@ -49,6 +52,12 @@ public class Entity : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         rb.velocity = Vector2.zero;
         isKnocked = false;
+    }
+
+    protected virtual IEnumerator Invincible(float invincibleDuration) {
+        invincible = true;
+        yield return new WaitForSeconds(invincibleDuration);
+        invincible = false;
     }
 
     #region Velocity

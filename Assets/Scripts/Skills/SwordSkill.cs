@@ -8,7 +8,7 @@ public enum SwordType {
     Bouncy,
     Pierce,
     Spin
-    // todo: refactor, add pierce function, make damage, setup timeout for sword
+    // todo: setup timeout for sword
 }
 
 public class SwordSkill : Skill
@@ -35,6 +35,10 @@ public class SwordSkill : Skill
     [SerializeField] private int pierceAmount;
     [SerializeField] private float pierceGravity;
 
+    [Header("Spin info")]
+    [SerializeField] private float maxRange;
+    [SerializeField] private float spinDuration;
+
     private GameObject[] dots;
 
     protected override void Start()
@@ -51,6 +55,8 @@ public class SwordSkill : Skill
                     swordGravity = bounceGravity; break;
                 case SwordType.Pierce:
                     swordGravity = pierceGravity; break;
+                case SwordType.Spin:
+                    swordGravity = 0f; break;
                 default: break;
             };
             GenerateDots();
@@ -76,6 +82,8 @@ public class SwordSkill : Skill
                 sword.GetComponent<SwordSkillController>().SetupBouncySword(finalDir, swordGravity, player, bounceAmount); break;
             case SwordType.Pierce:
                 sword.GetComponent<SwordSkillController>().SetupPierceSword(finalDir, pierceGravity, player, pierceAmount); break;
+            case SwordType.Spin:
+                sword.GetComponent<SwordSkillController>().SetupSpinSword(finalDir, 0f, player, maxRange, spinDuration); break;
             default:
                 sword.GetComponent<SwordSkillController>().SetupRegularSword(finalDir, swordGravity, player); break;
         }
@@ -83,6 +91,9 @@ public class SwordSkill : Skill
     }
 
     public Vector2 AimDirection() {
+        if (swordType == SwordType.Spin) {
+            return new Vector2(player.facingDir, 0f);
+        }
         Vector2 launchDir = new(player.facingDir * 20, 0f);
         launchDir.y += throwHeight * 2;
         return launchDir.normalized;

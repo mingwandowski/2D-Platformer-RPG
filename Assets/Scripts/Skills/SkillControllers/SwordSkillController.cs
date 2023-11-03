@@ -19,6 +19,8 @@ public class SwordSkillController : MonoBehaviour
     private List<Transform> enemyTarget = new();
     private int targetIdx = 0;
     private int pierceAmount = 0;
+    private float maxRange;
+    private float spinDuration;
 
     private void Awake() {
         anim = GetComponentInChildren<Animator>();
@@ -49,6 +51,16 @@ public class SwordSkillController : MonoBehaviour
                 ReturnSword();
             }
         }
+
+        if (swordType == SwordType.Spin && Vector2.Distance(transform.position, player.transform.position) > maxRange) {
+            StartCoroutine(SpinReturnCoroutine());
+        }
+    }
+
+    private IEnumerator SpinReturnCoroutine() {
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        yield return new WaitForSeconds(spinDuration);
+        ReturnSword();
     }
 
     private void SetupBaseSword(Vector2 dir, float swordGravity, Player player) {
@@ -76,7 +88,22 @@ public class SwordSkillController : MonoBehaviour
         this.pierceAmount = pierceAmount;
     }
 
+    public void SetupSpinSword(Vector2 dir, float swordGravity, Player player, float maxRange, float spinDuration) {
+        swordType = SwordType.Spin;
+        SetupBaseSword(dir, swordGravity, player);
+        this.maxRange = maxRange;
+        this.spinDuration = spinDuration;
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (swordType != SwordType.Spin) return;
+        other.GetComponent<Enemy>().Damage(other.transform.position.x > transform.position.x ? 1 : -1);
+    }
+
     private void OnTriggerEnter2D(Collider2D other) {
+        if (swordType == SwordType.Spin) return;
+        other.GetComponent<Enemy>()?.Damage(other.transform.position.x > transform.position.x ? 1 : -1);
+
         if (swordReturning || swordBouncing) return;
 
         if (bounceAmount == 0 && other.CompareTag("Enemy")) {

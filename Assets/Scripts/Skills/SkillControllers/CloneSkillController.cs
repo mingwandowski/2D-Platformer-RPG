@@ -32,16 +32,11 @@ public class CloneSkillController : MonoBehaviour
         }
     }
 
-    public void SetupClone(Vector3 position, Quaternion rotation, GameObject parentObj, int facingDir) {
+    public void SetupClone(Vector3 position, Quaternion rotation, GameObject parentObj) {
         attackCheck = new("AttackCheck");
         attackCheck.transform.parent = parentObj.transform;
         attackCheck.transform.localPosition = player.attackCheck.localPosition;
         transform.SetPositionAndRotation(position, rotation);
-
-        if ((transform.rotation.eulerAngles.y % 180 == 0 && facingDir < 0) ||
-            (transform.rotation.eulerAngles.y % 180 == 180 && facingDir > 0)) {
-            transform.Rotate(0, 180, 0);
-        }
     }
 
     private void AnimationTrigger() {

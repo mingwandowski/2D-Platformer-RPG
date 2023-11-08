@@ -6,7 +6,7 @@ public class BlackHoleSkill : Skill
 {
     [Header("Blackhole info")]
     [SerializeField] private GameObject blackHolePrefab;
-    private bool blackholeOpened = false;
+    public bool blackholeOpened = false;
     private GameObject blackhole;
 
     protected override void Start() {

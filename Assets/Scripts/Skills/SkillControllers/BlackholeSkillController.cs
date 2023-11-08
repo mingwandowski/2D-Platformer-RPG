@@ -53,8 +53,9 @@ public class BlackholeSkillController : MonoBehaviour
                 }
                 Enemy enemy = enemyList[j];
                 int facingDir = Random.Range(0, 2) == 0 ? -1 : 1;
-                Vector3 clonePos = enemy.transform.position + new Vector3(facingDir, 0, 0);
-                player.skill.clone.CreateClone(clonePos, enemy.transform.rotation, facingDir);
+                Vector3 clonePos = enemy.transform.position - new Vector3(facingDir, 0, 0);
+                Quaternion cloneRot = new(0, facingDir > 0 ? 0 : 180, 0, 0);
+                player.skill.clone.CreateClone(clonePos, cloneRot);
                 yield return new WaitForSeconds(attackInterval);
             }
         }

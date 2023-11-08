@@ -90,10 +90,14 @@ public class Player : Entity
     }
 
     private void CheckForDashInput() {
-        if (IsWallDetected()) return;
+        if (IsWallDetected() || IsUsingUltimateSkill()) return;
         if (Input.GetKeyDown(KeyCode.L) && skill.dash.CanUseSkill()) {
             stateMachine.ChangeState(DashState);
         }
+    }
+
+    private bool IsUsingUltimateSkill() {
+        return stateMachine.currentState == BlackHoleState || skill.blackhole.blackholeOpened;
     }
 
     public IEnumerator BusyFor(float seconds) {

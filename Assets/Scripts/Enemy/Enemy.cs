@@ -8,6 +8,7 @@ public class Enemy : Entity
     public float moveSpeed = 2f;
     public float idleTime = 2f;
     public float battleTime = 5f;
+    private float defaultMoveSpeed;
 
     [Header("Detection info")]
     [SerializeField] protected LayerMask whatIsPlayer;
@@ -29,11 +30,22 @@ public class Enemy : Entity
     protected override void Awake() {
         base.Awake();
         stateMachine = new EnemyStateMachine();
+        defaultMoveSpeed = moveSpeed;
     }
 
     protected override void Update() {
         base.Update();
         stateMachine.currentState.Update();
+    }
+
+    public virtual void FreezeTime(bool freeze) {
+        if (freeze) {
+            moveSpeed = 0;
+            anim.speed = 0;
+        } else {
+            moveSpeed = defaultMoveSpeed;
+            anim.speed = 1;
+        }
     }
 
     public virtual void OpenConterAttackWindow() {

@@ -8,7 +8,6 @@ public class CloneSkillController : MonoBehaviour
     private Animator anim;
     private Player player;
     private float cloneTimer;
-    private int facingDir;
     private GameObject attackCheck;
 
     private void Awake() {
@@ -33,12 +32,16 @@ public class CloneSkillController : MonoBehaviour
         }
     }
 
-    public void SetupClone(Transform transform, GameObject parentObj) {
+    public void SetupClone(Vector3 position, Quaternion rotation, GameObject parentObj, int facingDir) {
         attackCheck = new("AttackCheck");
         attackCheck.transform.parent = parentObj.transform;
         attackCheck.transform.localPosition = player.attackCheck.localPosition;
-        this.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        facingDir = player.facingDir;
+        transform.SetPositionAndRotation(position, rotation);
+
+        if ((transform.rotation.eulerAngles.y % 180 == 0 && facingDir < 0) ||
+            (transform.rotation.eulerAngles.y % 180 == 180 && facingDir > 0)) {
+            transform.Rotate(0, 180, 0);
+        }
     }
 
     private void AnimationTrigger() {

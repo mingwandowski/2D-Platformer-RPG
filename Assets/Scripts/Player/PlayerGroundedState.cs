@@ -31,6 +31,10 @@ public class PlayerGroundedState : PlayerState
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.R)) {
+            stateMachine.ChangeState(player.BlackHoleState);
+        }
+
         if (Input.GetKeyDown(KeyCode.J)) {
             stateMachine.ChangeState(player.PrimaryAttackState);
         }

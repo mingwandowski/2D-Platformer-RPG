@@ -8,8 +8,8 @@ public class CloneSkill : Skill
     [SerializeField] private GameObject clonePrefab;
     public float fadeSpeed;
 
-    public void CreateClone(Transform transform) {
+    public void CreateClone(Vector3 position, Quaternion rotation, int facingDir) {
         GameObject newClone = Instantiate(clonePrefab);
-        newClone.GetComponent<CloneSkillController>().SetupClone(transform, newClone);
+        newClone.GetComponent<CloneSkillController>().SetupClone(position, rotation, newClone, facingDir);
     }
 }

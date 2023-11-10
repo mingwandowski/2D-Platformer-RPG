@@ -8,6 +8,7 @@ public class Entity : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; } 
     public EntityFX fx { get; private set; }
+    public CharacterStats stats { get; private set; }
     #endregion
 
     [Header("Basic info")]
@@ -33,6 +34,7 @@ public class Entity : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         fx = GetComponent<EntityFX>();
+        stats = GetComponent<CharacterStats>();
     }
 
     protected virtual void Update() {

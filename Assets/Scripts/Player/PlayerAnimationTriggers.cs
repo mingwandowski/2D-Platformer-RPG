@@ -16,7 +16,7 @@ public class PlayerAnimationTriggers : MonoBehaviour
             if (hit.GetComponent<Enemy>() != null) {
                 int hitDirection = player.transform.position.x > hit.transform.position.x ? -1 : 1;
                 hit.GetComponent<Enemy>().Damage(hitDirection);
-                hit.GetComponent<CharacterStats>().TakeDamage(player.stats.damage);
+                hit.GetComponent<CharacterStats>().TakeDamage(player.stats.damage.GetValue());
             }
         }
     }

@@ -48,6 +48,11 @@ public class Enemy : Entity
         }
     }
 
+    public virtual IEnumerator DestroyEnemy() {
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
+    }
+
     public virtual void OpenConterAttackWindow() {
         canBeStunned = true;
         counterImage.SetActive(true);

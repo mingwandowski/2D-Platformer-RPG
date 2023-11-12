@@ -48,7 +48,7 @@ public class CloneSkillController : MonoBehaviour
         foreach (Collider2D hit in hits) {
             if (hit.GetComponent<Enemy>() != null) {
                 int hitDirection = transform.position.x > hit.transform.position.x ? -1 : 1;
-                hit.GetComponent<Enemy>().Damage(hitDirection);
+                hit.GetComponent<Enemy>().Damage(hitDirection, 0);
             }
         }
     }

@@ -14,6 +14,7 @@ public class Player : Entity
     public PlayerDashState DashState { get; private set; }
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
+    public PlayerDieState DieState { get; private set; }
 
     public PlayerPrimaryAttackState PrimaryAttackState { get; private set; }
     public PlayerCounterAttackState CounterAttackState { get; private set; }
@@ -58,6 +59,7 @@ public class Player : Entity
         DashState = new PlayerDashState(this, stateMachine, "dash");
         WallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
         WallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
+        DieState = new PlayerDieState(this, stateMachine, "die");
 
         PrimaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, "attack");
         CounterAttackState = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
@@ -90,7 +92,7 @@ public class Player : Entity
     }
 
     private void CheckForDashInput() {
-        if (IsWallDetected() || IsUsingUltimateSkill()) return;
+        if (isDead || IsWallDetected() || IsUsingUltimateSkill()) return;
         if (Input.GetKeyDown(KeyCode.L) && skill.dash.CanUseSkill()) {
             stateMachine.ChangeState(DashState);
         }

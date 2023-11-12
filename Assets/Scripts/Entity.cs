@@ -16,6 +16,7 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Vector2 knockbackDir;
     [HideInInspector] public bool isKnocked;
     private bool invincible = false;
+    public bool isDead = false;
 
     [Header("Collision info")]
     [SerializeField] protected Transform groundCheck;
@@ -41,8 +42,9 @@ public class Entity : MonoBehaviour
 
     }
 
-    public void Damage(int hitDirection) {
-        if (invincible) return;
+    public void Damage(int hitDirection, int hitDamage) {
+        if (invincible || isDead) return;
+        stats.TakeDamage(hitDamage);
         StartCoroutine(fx.FlashFX(0.3f));
         StartCoroutine(HitKnockback(hitDirection));
         StartCoroutine(Invincible(0.3f));

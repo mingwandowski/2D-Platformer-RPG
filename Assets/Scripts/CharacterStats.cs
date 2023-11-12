@@ -8,11 +8,11 @@ public class CharacterStats : MonoBehaviour
     public Stat maxHealth;
     [SerializeField] private int currentHealth;
 
-    private void Start() {
+    protected virtual void Start() {
         currentHealth = maxHealth.GetValue();
     }
 
-    public void TakeDamage(int damage) {
+    public virtual void TakeDamage(int damage) {
         currentHealth -= damage;
 
         if (currentHealth <= 0) {
@@ -20,7 +20,7 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    private void Die() {
-
+    protected virtual void Die() {
+        Debug.Log(gameObject.name +  " died.");
     }
 }

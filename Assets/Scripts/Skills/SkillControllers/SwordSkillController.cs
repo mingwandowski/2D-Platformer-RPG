@@ -103,12 +103,12 @@ public class SwordSkillController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other) {
         if (swordType != SwordType.Spin) return;
-        other.GetComponent<Enemy>().Damage(other.transform.position.x > transform.position.x ? 1 : -1);
+        other.GetComponent<Enemy>().Damage(other.transform.position.x > transform.position.x ? 1 : -1, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (swordType == SwordType.Spin) return;
-        other.GetComponent<Enemy>()?.Damage(other.transform.position.x > transform.position.x ? 1 : -1);
+        other.GetComponent<Enemy>()?.Damage(other.transform.position.x > transform.position.x ? 1 : -1, 0);
 
         if (swordReturning || swordBouncing) return;
 

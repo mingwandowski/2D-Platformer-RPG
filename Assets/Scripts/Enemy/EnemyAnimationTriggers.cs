@@ -15,7 +15,7 @@ public class EnemyAnimationTriggers : MonoBehaviour
         foreach (Collider2D hit in hits) {
             if (hit.GetComponent<Player>() != null) {
                 int hitDirection = enemy.transform.position.x > hit.transform.position.x ? -1 : 1;
-                hit.GetComponent<Player>().Damage(hitDirection);
+                hit.GetComponent<Player>().Damage(hitDirection, enemy.stats.damage.GetValue());
             }
         }
     }

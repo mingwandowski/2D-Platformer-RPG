@@ -48,7 +48,7 @@ public class BlackholeSkillController : MonoBehaviour
         for (int i = 0; i < attackCnt; i++) {
             int enemyCount = enemyList.Count;
             for (int j = 0; j < enemyCount; j++) {
-                if (j >= enemyList.Count) {
+                if (j >= enemyList.Count || enemyList[j] == null) {
                     break;
                 }
                 Enemy enemy = enemyList[j];

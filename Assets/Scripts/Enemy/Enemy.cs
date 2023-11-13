@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class Enemy : Entity
     public Vector2 stunDirection;
     protected bool canBeStunned;
     [SerializeField] protected GameObject counterImage;
+    public Action OnFlipped;
 
     public EnemyStateMachine stateMachine;
 
@@ -38,13 +40,19 @@ public class Enemy : Entity
         stateMachine.currentState.Update();
     }
 
+    public override void Flip() {
+        base.Flip();
+
+        OnFlipped.Invoke();
+    }
+
     public virtual void FreezeTime(bool freeze) {
         if (freeze) {
             moveSpeed = 0;
             anim.speed = 0;
         } else {
             moveSpeed = defaultMoveSpeed;
-            anim.speed = 1;
+            if (anim != null) anim.speed = 1;
         }
     }
 

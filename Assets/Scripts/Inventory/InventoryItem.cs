@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 public class InventoryItem
 {
     public ItemSO itemSO;
-    public int stackSize;
+    public int cnt;
 
-    public InventoryItem(ItemSO itemSO) {
+    public InventoryItem(ItemSO itemSO, int value = 1) {
         this.itemSO = itemSO;
-        stackSize = 1;
+        cnt = value;
     }
 
-    public void AddStack() => stackSize++;
-    public void RemoveStack() => stackSize--;
+    public void AddStack(int value = 1) => cnt += value;
+    public void RemoveStack(int value = 1) => cnt -= value;
 }

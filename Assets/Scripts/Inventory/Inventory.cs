@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
-    public Dictionary<ItemSO, int> inventory = new();
+    public Dictionary<ItemSO, InventoryItem> inventory = new();
     [SerializeField] private Transform itemSlotParent;
     [SerializeField] private GameObject itemSlotPrefab;
     private int inventorySize = 12;
@@ -33,27 +35,31 @@ public class Inventory : MonoBehaviour
         List<ItemSO> itemList = inventory.Keys.ToList();
         for (int i = 0; i < itemSlots.Length; i++) {
             if (i < itemList.Count) {
-                itemSlots[i].UpdateItemSlot(itemList[i], inventory[itemList[i]]);
+                ItemSO item = itemList[i];
+                itemSlots[i].UpdateItemSlot(item, inventory[item].cnt);
             } else {
                 itemSlots[i].UpdateItemSlot(null);
             }
         }
     }
 
-    public void AddItem(ItemSO item) {
+    public void AddItem(ItemSO item, int value = 1) {
         if (inventory.ContainsKey(item)) {
-            inventory[item]++;
+            inventory[item].AddStack(value);
         } else {
-            inventory.Add(item, 1);
+            inventory.Add(item, new InventoryItem(item, value));
         }
         UpdateSlotUI();
     }
 
-    public void RemoveItem(ItemSO item) {
+    public void RemoveItem(ItemSO item, int value = 1) {
         if (inventory.ContainsKey(item)) {
-            inventory[item]--;
-            if (inventory[item] <= 0) {
+            if (inventory[item].cnt > value) {
+                inventory[item].RemoveStack(value);
+            } else if (inventory[item].cnt == value) {
                 inventory.Remove(item);
+            } else {
+                Debug.Log("not enough");
             }
         }
         UpdateSlotUI();

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    SpriteRenderer sr;
     [SerializeField] private ItemSO itemSO;
 
     private void OnValidate() {

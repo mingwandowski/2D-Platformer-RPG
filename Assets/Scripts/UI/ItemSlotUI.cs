@@ -8,11 +8,15 @@ public class ItemSlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemText;
     private ItemSO item;
 
-    public void UpdateItemSlot(ItemSO item, int value) {
-        if (item != null) {
+    public void UpdateItemSlot(ItemSO item, int value = 1) {
+        this.item = item;
+        if (item == null || value == 0) {
+            itemImage.color = Color.clear;
+            itemText.text = "";
+        } else {
             itemImage.color = Color.white;
             itemImage.sprite = item.icon;
-            itemText.text = value == 0 ? "" : value.ToString();
+            itemText.text = value.ToString();
         }
     }
 }

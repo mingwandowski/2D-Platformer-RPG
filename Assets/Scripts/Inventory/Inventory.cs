@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform itemSlotParent;
     [SerializeField] private GameObject itemSlotPrefab;
     private int inventorySize = 12;
-    private ItemSlotUI[] itemslots;
+    private ItemSlotUI[] itemSlots;
 
     private void Awake() {
         if (instance == null) {
@@ -26,20 +26,16 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < inventorySize; i++) {
             Instantiate(itemSlotPrefab, itemSlotParent);
         }
-        itemslots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
+        itemSlots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
     }
 
     public void UpdateSlotUI() {
-        int index = 0;
-        foreach (var kvp in inventory) {
-            ItemSO item = kvp.Key;
-            int quantity = kvp.Value;
-
-            if (index < itemslots.Length) {
-                itemslots[index].UpdateItemSlot(item, quantity);
-                index++;
+        List<ItemSO> itemList = inventory.Keys.ToList();
+        for (int i = 0; i < itemSlots.Length; i++) {
+            if (i < itemList.Count) {
+                itemSlots[i].UpdateItemSlot(itemList[i], inventory[itemList[i]]);
             } else {
-                break; // Break loop if there are no more item slots to update
+                itemSlots[i].UpdateItemSlot(null);
             }
         }
     }

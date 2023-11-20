@@ -13,8 +13,10 @@ public class Inventory : MonoBehaviour
     public Dictionary<ItemSO, InventoryItem> inventory = new();
     [SerializeField] private Transform itemSlotParent;
     [SerializeField] private GameObject itemSlotPrefab;
-    private int inventorySize = 12;
-    private ItemSlotUI[] itemSlots;
+    private int inventorySize = 2;
+    public ItemSlotUI[] itemSlots;
+
+    public List<ItemSO> itemListTest;
 
     private void Awake() {
         if (instance == null) {
@@ -29,6 +31,9 @@ public class Inventory : MonoBehaviour
             Instantiate(itemSlotPrefab, itemSlotParent);
         }
         itemSlots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
+
+        // For Test
+        itemListTest?.ForEach(item => AddItem(item));
     }
 
     public void UpdateSlotUI() {

@@ -27,6 +27,7 @@ public class PlayerState
     }
 
     public virtual void Update() {
+        if (UIManager.instance.menuActive) return;
         xInput = Input.GetAxisRaw("Horizontal");
         yInput = Input.GetAxisRaw("Vertical");
         player.anim.SetFloat("yVelocity", rb.velocity.y);

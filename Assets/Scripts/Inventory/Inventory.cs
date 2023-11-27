@@ -12,8 +12,7 @@ public class Inventory : MonoBehaviour
     public static Inventory instance;
     public Dictionary<ItemSO, InventoryItem> inventory = new();
     [SerializeField] private Transform itemSlotParent;
-    [SerializeField] private GameObject itemSlotPrefab;
-    private int inventorySize = 2;
+    [SerializeField] public Sprite defaultSprite;
     public ItemSlotUI[] itemSlots;
 
     public List<ItemSO> itemListTest;
@@ -27,9 +26,6 @@ public class Inventory : MonoBehaviour
     }
 
     private void Start() {
-        for (int i = 0; i < inventorySize; i++) {
-            Instantiate(itemSlotPrefab, itemSlotParent);
-        }
         itemSlots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
 
         // For Test

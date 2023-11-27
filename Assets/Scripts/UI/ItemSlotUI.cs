@@ -11,10 +11,9 @@ public class ItemSlotUI : MonoBehaviour
     public void UpdateItemSlot(ItemSO item, int value = 1) {
         this.item = item;
         if (item == null || value == 0) {
-            itemImage.color = Color.clear;
+            itemImage.sprite = Inventory.instance.defaultSprite;
             itemText.text = "";
         } else {
-            itemImage.color = Color.white;
             itemImage.sprite = item.icon;
             itemText.text = value.ToString();
         }

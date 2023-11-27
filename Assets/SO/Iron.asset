@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33588b776191a41d8a27a6a777498919, type: 3}
   m_Name: Iron
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Iron
   icon: {fileID: 1025795234, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  description: The Iron

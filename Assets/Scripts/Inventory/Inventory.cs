@@ -14,6 +14,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform itemSlotParent;
     [SerializeField] public Sprite defaultSprite;
     public ItemSlotUI[] itemSlots;
+    public Transform description;
 
     public List<ItemSO> itemListTest;
 
@@ -27,6 +28,7 @@ public class Inventory : MonoBehaviour
 
     private void Start() {
         itemSlots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
+        description = itemSlotParent.parent.Find("Description");
 
         // For Test
         itemListTest?.ForEach(item => AddItem(item));

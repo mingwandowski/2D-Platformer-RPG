@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
 
     private void Start() {
         itemSlots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
-        description = itemSlotParent.parent.Find("Description");
+        description = itemSlotParent.parent.parent.Find("Description");
 
         // For Test
         itemListTest?.ForEach(item => AddItem(item));
